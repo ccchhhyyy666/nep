@@ -15,8 +15,18 @@ public class SupervisorServiceImpl implements ISupervisorService {
 
 	@Override
 	public Supervisor getSupervisorByIdByPass(Supervisor supervisor) {
-		// TODO 自动生成的方法存根
 		return supervisorMapper.getSupervisorByIdByPass(supervisor);
+	}
+
+	@Override
+	public int saveSupervisor(Supervisor supervisor) {
+		return supervisorMapper.insert(supervisor);
+	}
+
+	@Override
+	public Supervisor getSupervisorById(String telId) {
+		// TODO 自动生成的方法存根
+		return supervisorMapper.selectById(telId);
 	}
 
 }

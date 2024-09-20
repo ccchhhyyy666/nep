@@ -9,9 +9,14 @@ import com.chy.nepm.po.Supervisor;
 public interface SupervisorMapper extends BaseMapper<Supervisor>{ // 继承BaseMapper实现mybatis-plus
 	
 	/********************neps工程********************/
-	// 公共监督员登录
+	// 通过电话号和密码，获取公共监督员信息  用于登录
 	@Select("SELECT * FROM supervisor WHERE tel_id=#{telId} AND `password`=#{password}")
 	public Supervisor getSupervisorByIdByPass(Supervisor supervisor);
+	
+	//saveSupervisor
+	// 增加信息 
+	
+	//getSupervisorById
 	
 	/********************neps工程********************/
 
