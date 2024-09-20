@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @TableName("supervisor")
 public class Supervisor {
 
-	@TableId(value="tel_id")
+	@TableId(value="tel_id") // 主键标识
 	private String telId;
 	private String password;
 	private String realName;

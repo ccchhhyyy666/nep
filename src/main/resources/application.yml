@@ -1,22 +1,20 @@
 server:
-    port: 8888
+    port: 8888 # 修改服务器启动端口
     servlet:
-        context-path: /nepm
+        context-path: /nepm # 根目录
         
 logging:
     level:
         # org.springframework: debug
-        com.neusoft.nepm.mapper: debug   
+        com.chy.nepm.mapper: debug # 配置mapper输出日志级别，debug最高级别，超详细 注意路径mapper
         
 spring:       
-    datasource:
-        driver-class-name: com.mysql.jdbc.Driver
-        url: jdbc:mysql://localhost:3306/nep?characterEncoding=utf-8
-        username: root
-        password: 1234     
+    datasource: # 配置数据源信息  注意使用MySQL8和MySQL5。
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/nep?characterEncoding=utf-8&serverTimezone=UTC
+        username: "root"
+        password: "0712" # 不带就报错
         
 mybatis-plus:
-    mapper-locations: classpath:mapper/*.xml
-    type-aliases-package: com.neusoft.nepm.po
-    
-        
+    mapper-locations: classpath:mapper/*.xml # 配置mapper映射文件路径
+    type-aliases-package: com.chy.nepm.po # 配置扫描实体包，给实体类设置别名
