@@ -25,7 +25,6 @@ public class SupervisorServiceImpl implements ISupervisorService {
 
 	@Override
 	public Supervisor getSupervisorById(String telId) {
-		// TODO 自动生成的方法存根
 		return supervisorMapper.selectById(telId);
 	}
 

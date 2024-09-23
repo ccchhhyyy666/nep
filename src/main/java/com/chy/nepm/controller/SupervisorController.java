@@ -28,7 +28,7 @@ public class SupervisorController {
 	}
 	
 	// 公众监督员注册手机号校验
-	@RequestMapping("/getSupervisorById") // supervisor/getSupervisorByIdByPass
+	@RequestMapping("/getSupervisorById") // supervisor/getSupervisorById
 	public Supervisor getSupervisorById(@RequestBody Supervisor supervisor){ // @RequestBody 后端序列化处理
 		return iSupervisorService.getSupervisorById(supervisor.getTelId());
 	}

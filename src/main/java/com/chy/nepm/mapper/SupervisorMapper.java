@@ -17,6 +17,7 @@ public interface SupervisorMapper extends BaseMapper<Supervisor>{ // 继承BaseM
 	// 增加信息 
 	
 	//getSupervisorById
+	// 查询电话号是否存在
 	
 	/********************neps工程********************/
 
