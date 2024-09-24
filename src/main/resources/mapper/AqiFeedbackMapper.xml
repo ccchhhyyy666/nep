@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chy.nepm.mapper.AqiFeedbackMapper">
+	<!-- 比注解的形式多了动态拼接的方法。 -->
+
+	<!-- SQL片段 -->
+	<sql id="aqiFeedbackSelectSql">
+		SELECT af.*,
+		gm.gm_id gm_gm_id,
+		gm.gm_name gm_gm_name,
+		gm.tel
+		gm_tel,
+		su.tel_id su_tel_id,
+		su.real_name su_real_name,
+		su.sex su_sex,
+		su.birthday su_birthday,
+		gp.province_id gp_province_id,
+		gp.province_name gp_province_name,
+		gp.province_abbr gp_province_abbr,
+		gc.city_id gc_city_id,
+		gc.city_name gc_city_name,
+		aq.aqi_id aq_aqi_id,
+		aq.chinese_explain aq_chinese_explain,
+		aq.color aq_color
+		FROM
+		aqi_feedback af LEFT JOIN grid_member gm on af.gm_id =
+		gm.gm_id
+		JOIN
+		supervisor su ON af.tel_id = su.tel_id
+		JOIN grid_province
+		gp ON
+		af.province_id = gp.province_id
+		JOIN grid_city gc ON af.city_id =
+		gc.city_id
+		JOIN aqi aq ON af.estimated_grade = aq.aqi_id
+	</sql>
+
+	<resultMap type="AqiFeedback" id="aqiFeedbackResultMap">
+		<id property="afId" column="af_id" />
+		<id property="telId" column="tel_id" />
+		<id property="provinceId" column="province_id" />
+		<id property="cityId" column="city_id" />
+		<id property="address" column="address" />
+		<id property="information" column="information" />
+		<id property="estimatedGrade" column="estimated_grade" />
+		<id property="afDate" column="af_date" />
+		<id property="afTime" column="af_time" />
+		<id property="gmId" column="gm_id" />
+		<id property="assignDate" column="assign_date" />
+		<id property="assignTime" column="assign_time" />
+		<id property="state" column="state" />
+		<id property="remarks" column="remarks" />
+
+		<association property="supervisor" javaType="Supervisor">
+			<id property="telId" column="su_tel_id" />
+			<id property="realName" column="su_real_name" />
+			<id property="sex" column="su_sex" />
+			<id property="birthday" column="su_birthday" />
+		</association>
+
+		<association property="gridProvince" javaType="GridProvince">
+			<id property="provinceId" column="gp_province_id" />
+			<id property="provinceName" column="gp_province_name" />
+			<id property="provinceAbbr" column="gp_province_abbr" />
+		</association>
+
+		<association property="gridCity" javaType="GridCity">
+			<id property="cityId" column="gc_city_id" />
+			<id property="cityName" column="gc_city_name" />
+		</association>
+
+		<association property="aqi" javaType="Aqi">
+			<id property="aqiId" column="aq_aqi_id" />
+			<id property="chineseExplain" column="aq_chinese_explain" />
+			<id property="color" column="aq_color" />
+		</association>
+
+		<association property="gridMember" javaType="GridMember">
+			<id property="gmId" column="gm_gm_id" />
+			<id property="gmName" column="gm_gm_name" />
+			<id property="tel" column="gm_tel" /> 
+		</association>
+
+	</resultMap>
+
+	<!-- 正常查询，多表查询体现在resultMap(返回值类型) -->
+	<select id="listAqiFeedbackByTelId" parameterType="String"
+		resultMap="aqiFeedbackResultMap">
+		<include refid="aqiFeedbackSelectSql"></include>
+		WHERE af.tel_id = #{telId}
+		order by af.af_date desc, af.af_time desc
+	</select>
+</mapper>
