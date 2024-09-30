@@ -22,7 +22,8 @@
 		gc.city_name gc_city_name,
 		aq.aqi_id aq_aqi_id,
 		aq.chinese_explain aq_chinese_explain,
-		aq.color aq_color
+		aq.color aq_color,
+		aq.aqi_explain aq_aqi_explain
 		FROM
 		aqi_feedback af LEFT JOIN grid_member gm on af.gm_id =
 		gm.gm_id
@@ -34,6 +35,24 @@
 		JOIN grid_city gc ON af.city_id =
 		gc.city_id
 		JOIN aqi aq ON af.estimated_grade = aq.aqi_id
+	</sql>
+
+	<sql id="aqiFeedbackSqlWhere">
+		<where>
+			af.state = #{state}
+			<if test="provinceId!=0">
+				and af.province_id = #{provinceId}
+			</if>
+			<if test="cityId!=0">
+				and af.city_Id = #{cityId}
+			</if>
+			<if test="estimatedGrade!=0">
+				and af.estimated_grade = #{estimatedGrade}
+			</if>
+			<if test="afDate!=null and afDate!=''">
+				and af.af_date =#{afDate}
+			</if>
+		</where>
 	</sql>
 
 	<resultMap type="AqiFeedback" id="aqiFeedbackResultMap">
@@ -72,14 +91,15 @@
 
 		<association property="aqi" javaType="Aqi">
 			<id property="aqiId" column="aq_aqi_id" />
-			<id property="chineseExplain" column="aq_chinese_explain" />
 			<id property="color" column="aq_color" />
+			<id property="chineseExplain" column="aq_chinese_explain" />
+			<id property="aqiExplain" column="aq_aqi_explain" />
 		</association>
 
 		<association property="gridMember" javaType="GridMember">
 			<id property="gmId" column="gm_gm_id" />
 			<id property="gmName" column="gm_gm_name" />
-			<id property="tel" column="gm_tel" /> 
+			<id property="tel" column="gm_tel" />
 		</association>
 
 	</resultMap>
@@ -91,4 +111,26 @@
 		WHERE af.tel_id = #{telId}
 		order by af.af_date desc, af.af_time desc
 	</select>
+
+	<select id="getAqiFeedbackCount" parameterType="AfPageRequestDto"
+		resultType="int">
+		select count(*) from aqi_feedback af
+		<include refid="aqiFeedbackSqlWhere"></include>
+	</select>
+
+
+	<select id="listAqiFeedbaockPage" parameterType="AfPageRequestDto"
+		resultMap="aqiFeedbackResultMap">
+		<include refid="aqiFeedbackSelectSql"></include>
+		<include refid="aqiFeedbackSqlWhere"></include>
+		order by af.af_id desc
+		limit #{beginNum},#{maxPageNum}
+	</select>
+	
+	<select id="getAqiFeedbaockById" parameterType="int"
+		resultMap="aqiFeedbackResultMap">
+		<include refid="aqiFeedbackSelectSql"></include>
+		where af.af_id = #{afId}
+	</select>
+	
 </mapper>

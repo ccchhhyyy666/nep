@@ -13,8 +13,8 @@ spring:
         driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://localhost:3306/nep?characterEncoding=utf-8&serverTimezone=UTC
         username: "root"
-        password: "0712" # 不带就报错
+        password: "0712" # 不带""就报错
         
 mybatis-plus:
     mapper-locations: classpath:mapper/*.xml # 配置mapper映射文件路径
-    type-aliases-package: com.chy.nepm.po # 配置扫描实体包，给实体类设置别名
+    type-aliases-package: com.chy.nepm.po,com.chy.nepm.dto # 配置扫描实体包，给实体类设置别名
